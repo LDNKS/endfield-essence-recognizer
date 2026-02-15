@@ -167,6 +167,7 @@ version = "0.6.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
+    { name = "hdrcapture" },
     { name = "httpx" },
     { name = "keyboard" },
     { name = "loguru" },
@@ -198,6 +199,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = ">=0.127.0" },
+    { name = "hdrcapture", url = "https://github.com/LDNKS094/hdrcapture/releases/download/v0.2.1/hdrcapture-0.2.1-cp313-cp313-win_amd64.whl" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "keyboard", specifier = ">=0.13.5" },
     { name = "loguru", specifier = ">=0.7.3" },
@@ -375,6 +377,20 @@ sdist = { url = "https://files.pythonhosted.org/packages/01/ee/02a2c011bdab74c6f
 wheels = [
     { url = "https://files.pythonhosted.org/packages/04/4b/29cac41a4d98d144bf5f6d33995617b185d14b22401f75ca86f384e87ff1/h11-0.16.0-py3-none-any.whl", hash = "sha256:63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86", size = 37515, upload-time = "2025-04-24T03:35:24.344Z" },
 ]
+
+[[package]]
+name = "hdrcapture"
+version = "0.2.1"
+source = { url = "https://github.com/LDNKS094/hdrcapture/releases/download/v0.2.1/hdrcapture-0.2.1-cp313-cp313-win_amd64.whl" }
+dependencies = [
+    { name = "numpy" },
+]
+wheels = [
+    { url = "https://github.com/LDNKS094/hdrcapture/releases/download/v0.2.1/hdrcapture-0.2.1-cp313-cp313-win_amd64.whl", hash = "sha256:be51d5e201883ea2a41cd498510cdbf868135e915fc57745b5526a7697e8965c" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "numpy" }]
 
 [[package]]
 name = "httpcore"

@@ -276,7 +276,8 @@ class ScannerEngine:
 
         logger.debug("Made the window visible and active.")
 
-        check_scene_result = check_scene(self._image_source, self.ctx, self._profile)
+        scene_mem_source = InMemoryImageSource.cache_from(self._image_source)
+        check_scene_result = check_scene(scene_mem_source, self.ctx, self._profile)
         if not check_scene_result:
             return
 
@@ -306,8 +307,9 @@ class ScannerEngine:
             self._window_actions.wait(0.3)
 
             # 识别基质信息
+            mem_source = InMemoryImageSource.cache_from(self._image_source)
             data = recognize_essence(
-                self._image_source,
+                mem_source,
                 self.ctx,
                 self._profile,
             )

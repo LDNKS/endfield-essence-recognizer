@@ -19,7 +19,7 @@ dependencies = [
     "pywin32>=311",
     "uvicorn>=0.40.0",
     "websockets>=15.0.1",
-    "hdrcapture @ https://github.com/LDNKS094/hdrcapture/releases/download/v0.2.0/hdrcapture-0.2.0-cp313-cp313-win_amd64.whl",
+    "hdrcapture @ https://github.com/LDNKS094/hdrcapture/releases/download/v0.2.1/hdrcapture-0.2.1-cp313-cp313-win_amd64.whl",
 ]
 
 [dependency-groups]
