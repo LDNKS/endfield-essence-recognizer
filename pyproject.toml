@@ -19,6 +19,7 @@ dependencies = [
     "pywin32>=311",
     "uvicorn>=0.40.0",
     "websockets>=15.0.1",
+    "hdrcapture @ https://github.com/LDNKS094/hdrcapture/releases/download/v0.2.0/hdrcapture-0.2.0-cp313-cp313-win_amd64.whl",
 ]
 
 [dependency-groups]
@@ -41,6 +42,6 @@ eer = "endfield_essence_recognizer.__main__:main"
 requires = ["uv_build>=0.9.3,<0.10.0"]
 build-backend = "uv_build"
 
-[pytest]
+[tool.pytest.ini_options]
 junit_suite_name = "backend tests"
 junit_duration_report = "total"
