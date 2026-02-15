@@ -13,6 +13,10 @@ import win32ui  # ty:ignore[unresolved-import]
 from cv2.typing import MatLike
 
 from endfield_essence_recognizer.core.layout.base import Point, Region
+from endfield_essence_recognizer.core.window.hdr_capture import (
+    get_capture,
+    reset_capture,
+)
 
 
 def _get_window_hwnd(window: pygetwindow.Window) -> int:
@@ -116,6 +120,32 @@ def _screenshot_by_win32ui(scope: Region) -> MatLike:
     return arr.copy()
 
 
+def _screenshot_by_hdrcapture(relative_region: Region | None = None) -> MatLike:
+    try:
+        frame = get_capture().capture()
+        image = np.ascontiguousarray(frame.ndarray()[:, :, :3])
+    except Exception:
+        reset_capture()
+        raise
+
+    if relative_region is None:
+        return image
+
+    x0, y0, x1, y1 = (
+        relative_region.x0,
+        relative_region.y0,
+        relative_region.x1,
+        relative_region.y1,
+    )
+    height, width = image.shape[:2]
+    if x0 < 0 or y0 < 0 or x1 > width or y1 > height or x1 <= x0 or y1 <= y0:
+        raise ValueError(
+            f"Try to screenshot with invalid relative rect: {relative_region}, image_size=({width}, {height})"
+        )
+
+    return image[y0:y1, x0:x1].copy()
+
+
 def screenshot_window(
     window: pygetwindow.Window, relative_region: Region | None = None
 ) -> MatLike:
@@ -128,19 +158,24 @@ def screenshot_window(
     Returns:
         numpy 数组（BGR 格式，OpenCV 兼容）
     """
-    client_rect = _get_client_rect(window)
-    if relative_region is not None:
-        scope = Region(
-            Point(
-                client_rect.x0 + relative_region.x0, client_rect.y0 + relative_region.y0
-            ),
-            Point(
-                client_rect.x0 + relative_region.x1, client_rect.y0 + relative_region.y1
-            ),
-        )
-    else:
-        scope = client_rect
-    return _screenshot_by_win32ui(scope)
+    try:
+        return _screenshot_by_hdrcapture(relative_region)
+    except Exception:
+        client_rect = _get_client_rect(window)
+        if relative_region is not None:
+            scope = Region(
+                Point(
+                    client_rect.x0 + relative_region.x0,
+                    client_rect.y0 + relative_region.y0,
+                ),
+                Point(
+                    client_rect.x0 + relative_region.x1,
+                    client_rect.y0 + relative_region.y1,
+                ),
+            )
+        else:
+            scope = client_rect
+        return _screenshot_by_win32ui(scope)
 
 
 def get_support_window(
